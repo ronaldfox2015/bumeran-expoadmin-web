@@ -1,0 +1,36 @@
+<header class="b-header">
+  <div class="b-header_column">
+    <div class="b-header-logo">
+      <div class="b-header-logo_swap">
+        <img class="b-header-logo_swap__image" src="/assets/img/logo_aptitus.svg" height="27" width="171">
+        <!--Se usará cuando se implemente Aptitus Web-->
+        <!--<img class="b-header-logo_swap__image" src="/assets/img/logo_aptitus.svg" height="27" >-->
+        <div class="b-header-logo_message">
+          <comp-svgicons [icon]="{name: icon[0]}"></comp-svgicons>
+          <span class="b-header-logo_message__text">Cambiar de entorno</span>
+        </div>
+        <!--Se usará cuando se implemente Aptitus Web-->
+        <!--<i class="b-header-logo_swap__icon-arrow g-icon g-icon_down_arrow"></i>-->
+      </div>
+      <div class="b-header-logo__title">{{title}}</div>
+    </div>
+  </div>
+  <div class="b-header_column">
+    <ul class="b-header-menu">
+      <li class="b-header-menu_item">
+        <a class="b-header-menu_link c-dropdown" (functionConnector)="dropdownFunctionConnector($event)" [menuItems]="menuDropDownItems"
+          href="javascript:void(0)">
+          <span class="b-header-menu_link__name">{{name}}</span>
+          <comp-svgicons [icon]="{name: icon[1]}"></comp-svgicons>
+          <img class="b-header-menu_link__image" src="/assets/img/avatar.svg" height="40" width="40">
+        </a>
+      </li>
+      <li class="b-header-menu_item " (click)="logout()">
+        <a class="b-header-menu_link" href="javascript:void(0)">
+          <comp-svgicons [icon]="{name: icon[2]}"></comp-svgicons>
+          Cerrar sesión
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>

@@ -1,0 +1,110 @@
+<div class="g-detail-header">
+  <h1 class="g-detail-header__title">{{title}}</h1>
+  <div class="g-detail-header__breadcrumb">Feria / Patrocinadores / {{title}}</div>
+</div>
+<div class="g-detail-body">
+  <div class="b-container">
+
+    <!-- Component Form -->
+    <div class="b-container_form">
+      <comp-loader-view *ngIf="!active"></comp-loader-view>
+      <form action="" class="g-form" *ngIf="active" (ngSubmit)="submitSponsor()" [formGroup]="sponsorForm">
+        <div class="g-form_body">
+
+          <!-- Informacion General -->
+          <div id="generalInformation" class="g-form_section">
+            <div class="g-form_section-title">
+              <span class="g-form_section-title__text">Información General</span>
+              <span class="g-form_section-title__icon">
+                <comp-svgicons [icon]="{name: 'g-icon-down_arrow'}"></comp-svgicons>
+              </span>
+            </div>
+            <div class="g-form_section-content">
+              <div class="g-form_row">
+                <label for="" class="g-form_label">Categoría
+                  <span class="g-form_label_required">*</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <select class="g-form_control" formControlName="category">
+                    <option value="">Selecciona una categoría</option>
+                    <!-- <option value="Educacion">Educación</option> -->
+                    <option value="Empleo">Empleo</option>
+                  </select>
+                </fieldset>
+              </div>
+              <div class="g-form_row">
+                <label for="" class="g-form_label">Nombre
+                  <span class="g-form_label_required">*</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <input type="text" class="g-form_control" formControlName="companyName">
+                </fieldset>
+              </div>
+              <div class="g-form_row">
+                <label for="" class="g-form_label">URL
+                  <span class="g-form_label_required">*</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <input type="text" class="g-form_control" formControlName="url">
+                </fieldset>
+              </div>
+              <div formGroupName="coords" *ngIf="isDeveloper">
+                <div class="g-form_row">
+                  <label for="" class="g-form_label">
+                    Coordenadas Desktop
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <input type="text" class="g-form_control" formControlName="desktop">
+                  </fieldset>
+                </div>
+                <div class="g-form_row">
+                  <label for="" class="g-form_label">
+                    Coordenadas Tablet
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <input type="text" class="g-form_control" formControlName="tablet">
+                  </fieldset>
+                </div>
+              </div>
+              <div class="g-form_row">
+                <label class="g-form_label">Imagen
+                  <span class="g-form_label_required">*</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <div class="b-preview-image">
+                    <div class="b-preview-image_column u-center-image">
+                      <img *ngIf="imageLogo.fields[0]['source']" src="{{imageLogo.fields[0]['source']}}" />
+                    </div>
+                    <div class="b-preview-image_column">
+                      <button class="g-btn g-btn-input-file g-btn--turquoise" type="button" [disabled]="imageLogo.fields[0].loading" [attr.loading]="imageLogo.fields[0].loading">
+                        <span class="g-btn_label">Seleccionar Imagen</span>
+                        <input class="g-btn-input-file__control" type="file" appInputFile appInputFileMethod="image" accept="{{imageLogo.metadata}}"
+                          (initUpload)="uploadImage($event, imageLogo.fields[0], controlsForm['image'])" (resetInput)="resetInputImage($event, imageLogo.fields[0], controlsForm['image'])"
+                        />
+                        <span class="g-btn_spinner"></span>
+                      </button>
+                      <div class="g-form_input-error">{{imageLogo.fields[0]['error']}}</div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="g-form_button-group">
+          <button class="g-btn" type="button" (click)="cancelSponsor()">
+            <span class="g-btn_label">Cancelar</span>
+            <span class="g-btn_spinner"></span>
+          </button>
+          <button class="g-btn g-btn--turquoise" type="submit" [disabled]="!this.sponsorForm.valid || isSending" [attr.loading]="isSending">
+            <span class="g-btn_label">Guardar Cambios</span>
+            <span class="g-btn_spinner"></span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+<simple-notifications class="g-notification" [options]="optNotification" (onDestroy)="redirectSponsor()"></simple-notifications>

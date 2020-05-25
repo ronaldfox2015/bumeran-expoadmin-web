@@ -1,0 +1,56 @@
+.b-container
+  display flex
+  max-width 1200px
+  &_form
+    width calc(100% - 300px)
+
+.b-video
+  align-items center
+  background #f3f4f5
+  border 2px dashed #d2d5d8
+  color #9e9e9e
+  display flex
+  font-size 20px
+  justify-content center
+  margin 10px 0 0 0
+  min-height 200px
+  padding 5px
+
+.b-preview-image
+  display flex
+  &_column
+    &:first-child
+      background #eef1f5
+      border 1px solid #c7c7c7
+      height 120px
+      vertical-align top
+      width 120px
+    &:last-child
+      padding 0 0 0 10px
+      width calc(100% - 120px)
+
+.g-input-color
+  display flex
+  height 30px
+  &__preview
+    width 30px
+  &__control
+    width calc(100% - 30px)
+    height inherit
+
+.b-preview
+  &_canvas
+    width 515px
+
+.g-form_row[hidden]
+  display none
+
+.b-button-box
+  .g-btn
+    margin-left 10px
+  align-items flex-start
+  display flex
+  flex-wrap wrap
+  height 87px
+  justify-content space-between
+  width 100%

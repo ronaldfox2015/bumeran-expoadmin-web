@@ -1,0 +1,8 @@
+<ul class="b-aside_menu">
+  <li class="b-aside_menu_item" routerLinkActive="b-aside_menu_item--active" *ngFor="let link of links">
+    <a class="b-aside_menu_link" href="" routerLink="{{link.url}}">
+      <comp-svgicons [icon]="{name: link.icon}"></comp-svgicons>
+      <span class="b-aside_menu_link__label">{{link.label}}</span>
+    </a>
+  </li>
+</ul>

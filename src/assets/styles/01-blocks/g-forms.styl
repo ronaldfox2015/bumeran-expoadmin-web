@@ -1,0 +1,132 @@
+.g-form
+  margin 10px
+  &_title
+    color #2F3F56
+    margin-bottom 20px
+  &_section
+    color #565656
+    margin-bottom 20px
+  &_section-title
+    align-items center
+    background-color #edeff1
+    border 1px solid #d3d7da
+    border-bottom 0
+    color #34393e
+    display flex
+    font-size 17px
+    justify-content space-between
+    padding 10px 20px
+  &_section-content
+    border 1px solid #d3d7da
+    padding 25px 20px
+    &__description
+      color #666
+      font-size 13px
+      margin 0
+      margin-bottom 20px
+  &_row
+    align-items flex-start
+    display flex
+    margin 0 0 20px 0
+    width 100%
+    &--disabled
+      color #999999
+  &_image
+    &-list-item
+      &__link
+        color #fff
+        display table-cell
+  &_col
+    align-items flex-start
+    display flex
+    width 100%
+  &_col-2
+    lost-column 1/2 0 20px flex
+  &_label
+    display block
+    flex-grow 0
+    flex-shrink 0
+    font-weight bold
+    margin 7px 10px 0 0
+    width 130px
+    &_required
+      color red
+    &_extra
+      color #888
+      font-size 13px
+      font-weight normal
+  &_network
+    width 100%
+  &_icon-delete
+    margin auto 0 auto 5px
+
+  &_add
+    text-align right
+    &__link
+      color #378cc8
+      margin 5px
+      vertical-align center
+      &:hover
+        cursor pointer
+        text-decoration underline
+  &_fieldset
+    width calc(100% - 140px)
+  &_control
+    border 1px solid #c7c7c7
+    padding 6px 10px
+    width 100%
+    &[disabled]
+      background-color #eef1f5
+      cursor not-allowed
+    &[readonly]
+      background-color #eef1f5
+  &_button-group
+    .g-btn
+     margin-right 10px
+    &:last-child
+      margin-right 0
+  &_image-input-file
+    justify-content center
+    margin-top 10px
+
+.g-form_row--profile
+  align-items flex-start
+  .g-form_col:first-child
+    margin 0 20px 0 0
+    width 150px
+  .g-form_col:last-child
+    width calc(100% - 150px)
+  .g-form_textarea
+    height 120px
+
+.g-custom-select
+  background #fff
+  position relative
+  border 1px solid #bfbfbf
+  border-radius 3px
+  &:after
+    border-color #494949 transparent transparent
+    border-style solid
+    border-width 4px 4px 0
+    content ""
+    margin-top -2px
+    pointer-events none
+    position absolute
+    right 10px
+    top 50%
+  select
+    -webkit-appearance none
+    -moz-appearance none
+    appearance none
+    background none
+    border none
+    outline none
+    padding 5px 25px 5px 8px
+    width 100%
+
+.error_message
+  color #d62e2e
+  display block
+  font-size 13px
+  margin 5px 5px 1px 5px
+

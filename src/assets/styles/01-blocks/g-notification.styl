@@ -1,0 +1,24 @@
+.g-notification
+  .simple-notification
+    min-height 70px
+    .sn-content
+      font-size 15px
+      text-align left
+    .sn-title
+      text-align left
+    &.warning
+      position relative
+      &:before
+        color #a0611c
+        content "x"
+        font-size 15px
+        font-weight bold
+        position absolute
+        right 7px
+        top 0
+      .sn-title
+      .sn-content
+        color #a0611c
+      svg
+        fill #a0611c
+        margin-top 12px

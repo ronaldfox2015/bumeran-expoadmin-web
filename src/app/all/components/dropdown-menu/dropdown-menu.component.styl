@@ -1,0 +1,44 @@
+:host.c-dropdown
+  position relative
+  &:hover
+    .c-dropdown_menu
+      display block
+
+.c-dropdown_menu
+  background-clip padding-box
+  background-color #fff
+  border 1px solid #ccc
+  box-shadow 0 6px 12px rgba(0,0,0,.175)
+  display none
+  float left
+  font-size 14px
+  left 0
+  list-style none
+  min-width 160px
+  padding 5px 0
+  position absolute
+  text-align left
+  top 100%
+  transition all 300ms ease
+  z-index 1000
+  &_link
+    clear both
+    color #333
+    display block
+    font-weight 400
+    line-height 1.42857143
+    padding 3px 20px
+    white-space nowrap
+    &:hover
+      background #ececec
+  &--divider
+    border-top 1px solid #e5e5e5
+    margin-top 5px
+    padding-top 5px
+  &--disabled
+    color #bfbfbf
+:host /deep/ .g-icon
+  fill #333
+  margin -2.6px 5px 0 0
+  &-down_arrow
+    fill white

@@ -1,0 +1,65 @@
+*
+  box-sizing  border-box
+html
+  height 100%
+body
+  border 0
+  color #333
+  font-family "Dosis", sans-serif
+  font-size 14px
+  height 100%
+  margin 0
+  min-width 1300px
+  padding 0
+
+h1, h2, h3, h4, h5, h6
+  font-weight 600
+  margin 0
+
+header
+  position relative
+  z-index 5
+
+ul
+  margin 0
+
+a
+  display inline-block
+  vertical-align middle
+  text-decoration none
+
+form
+  margin 0
+
+label
+  display inline-block
+  vertical-align middle
+
+fieldset
+  border 0
+  margin 0
+  padding 0
+
+[type=date],
+[type=email],
+[type=password],
+[type=tel],
+[type=text],
+select,
+textarea
+  background transparent
+  border 1px solid #c7c7c7
+  padding 5px 10px
+  &:focus
+    outline 0
+
+input:-webkit-autofill
+  -webkit-box-shadow 0 0 0 1000px white inset
+
+.row
+  &:before
+  &:after
+    content ''
+    display table
+  &:after
+    clear:both

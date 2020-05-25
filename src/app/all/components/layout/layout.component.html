@@ -1,0 +1,15 @@
+<comp-header></comp-header>
+<div class="b-layout">
+  <aside class="b-layout__aside">
+    <div class="b-user_profile">
+      <img class="b-user_profile__image" src="/assets/img/avatar.svg" height="94" width="94">
+      <div class="b-user_profile__title">{{full_name}}</div>
+      <div class="b-user_profile__type">{{role}}</div>
+    </div>
+    <comp-aside-menu></comp-aside-menu>
+    <router-outlet name="sub_menu"></router-outlet>
+  </aside>
+  <section class="b-layout__content">
+    <router-outlet></router-outlet>
+  </section>
+</div>

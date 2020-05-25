@@ -1,0 +1,35 @@
+.b-login
+  align-items center
+  background-image url("/assets/img/background.jpg")
+  background-size cover
+  display flex
+  height 100vh
+  justify-content center
+  &_form
+    background rgba(240,240,240,0.8)
+    border-radius 5px
+    box-shadow 0 0 8px 0 #777
+    padding 25px 30px
+    position relative
+    text-align center
+    width 280px
+    z-index 2
+    &__title
+      font-size 20px
+      margin-bottom 25px
+    &__error
+      background #d62e2e
+      color #f4f7fa
+      display  block
+      font-size 12px
+      font-weight bold
+      padding 5px 12px
+.g-icon-control
+  display inline-block
+  vertical-align middle
+.g-input-control--login
+  background #EEE
+  .g-input-control__tag
+    border 0
+    &:-webkit-autofill
+      -webkit-box-shadow 0 0 0 1000px #EEE inset

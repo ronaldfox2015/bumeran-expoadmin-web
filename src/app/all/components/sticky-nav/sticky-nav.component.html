@@ -1,0 +1,7 @@
+<nav class="b-sticky-nav">
+  <ul class="b-sticky-nav_list">
+    <li class="b-sticky-nav_list-item" *ngFor=" let option of options; let i = index ">
+      <a [id]=" 'optionSticky' + i " (click)="smoothScroll($event, option.rel)" class="b-sticky-nav_list-item__link">{{ option.text }}</a>
+    </li>
+  </ul>
+</nav>

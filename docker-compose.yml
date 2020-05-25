@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  angular:
+    image: 929226109038.dkr.ecr.eu-west-1.amazonaws.com/aptitus-dev-expoferia-admin:20190206.97
+    environment:
+      - DEV_UID=${UID}
+      - DEV_GID=${GID}
+    volumes:
+      - ./:/app
+    command: npm start
+    ports:
+      - 4200:4200

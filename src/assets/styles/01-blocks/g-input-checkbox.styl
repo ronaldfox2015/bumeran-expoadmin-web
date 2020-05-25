@@ -1,0 +1,28 @@
+.g-input-checkbox_label
+  cursor pointer
+  display inline-block
+  font-size 13px
+  line-height normal
+  vertical-align middle
+  &:before
+    background-color #DEDEDE
+    border-radius 3px
+    box-shadow inset 0 2px 3px 0 rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8)
+    color #150909
+    content ""
+    display inline-block
+    height 18px
+    margin-right 7px
+    text-align center
+    vertical-align middle
+    width 18px
+  .g-input-checkbox_span
+    vertical-align middle
+.g-input-checkbox_tag
+  display none
+  &:checked
+    & + .g-input-checkbox_label
+      &:before
+        content "\2714"
+        text-shadow 1px 1px 1px rgba(0, 0, 0, .2)
+        font-size 15px

@@ -1,0 +1,28 @@
+.b-aside_menu
+  padding 0
+  &_item
+    text-align center
+    list-style none
+    &--active
+      .b-aside_menu_link
+        background #2a3035
+        color white
+  &_link
+    color #898a8a
+    display block
+    padding 15px
+    position relative
+    transition background 0.2s ease-out
+    &:hover
+      background #2a3035
+    &__icon
+      display block
+      font-size 34px
+      margin 0 0 10px 0
+:host /deep/ .g-icon
+    display block
+    fill white
+    height 34px
+    margin 0 auto
+    margin-bottom 10px
+    width 34px

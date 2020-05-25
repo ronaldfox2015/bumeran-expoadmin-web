@@ -1,0 +1,6 @@
+<div class="g-form-control" [ngClass]="{'g-form-control--error': isErrors}">
+  <ng-content></ng-content>
+  <div class="g-form-control__message" *ngIf="isErrors">
+    {{ errorMessage }}
+  </div>
+</div>

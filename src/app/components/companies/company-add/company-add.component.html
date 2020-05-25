@@ -1,0 +1,566 @@
+<div class="g-detail-header">
+  <h1 class="g-detail-header__title">{{title}}</h1>
+  <div class="g-detail-header__breadcrumb">Feria / Empresas / {{title}}</div>
+</div>
+<div class="g-detail-body">
+  <div class="b-container">
+    <!-- Component Stycky Nav -->
+    <div class="b-container_sticky">
+      <comp-sticky-nav [options]="optionsStickyNav"></comp-sticky-nav>
+    </div>
+
+    <!-- Component Form -->
+    <div class="b-container_form">
+      <comp-loader-view *ngIf="!active"></comp-loader-view>
+      <form action="" class="g-form" *ngIf="active" (ngSubmit)="submitCompany()" [formGroup]="companyForm">
+        <div class="g-form_body">
+
+          <!-- Informacion General -->
+          <div id="generalInformation" class="g-form_section">
+            <div class="g-form_section-title">
+              <span class="g-form_section-title__text">Información General</span>
+              <span class="g-form_section-title__icon">
+                <comp-svgicons [icon]="{name: 'g-icon-down_arrow'}"></comp-svgicons>
+              </span>
+            </div>
+            <div class="g-form_section-content">
+              <div class="g-form_row">
+                <label for="" class="g-form_label">Categoría
+                  <span class="g-form_label_required">*</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <comp-custom-validation [options]="{
+                        errors   : controlsForm['category'].errors,
+                        element  : controlsForm['category'],
+                        submitted: isSubmitted,
+                        messages : {
+                          required: 'Este campo es requerido.'
+                        }
+                    }">
+                    <select name="select" class="g-form_control" formControlName="category" (change)="getSelectedCategory($event.target.value)">
+                      <option value="" selected>(Seleccionar)</option>
+                      <option value="Empleo">Empleo</option>
+                      <!-- <option value="Educacion">Educación</option> -->
+                    </select>
+                  </comp-custom-validation>
+                </fieldset>
+              </div>
+              <div class="g-form_row">
+                <div class="g-form_col g-form_col-2">
+                  <label for="" class="g-form_label">R.U.C.
+                    <span class="g-form_label_required">*</span>
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <comp-custom-validation [options]="{
+                        errors   : controlsForm['document_number'].errors,
+                        element  : controlsForm['document_number'],
+                        messages : {
+                          pattern  : 'Solo números.',
+                          customRuc: 'El RUC ingresado no es válido.'
+                        }
+                      }">
+                      <input type="text" class="g-form_control" formControlName="document_number" required maxlength="11" [readonly]="isEdit">
+                    </comp-custom-validation>
+                  </fieldset>
+                </div>
+                <div class="g-form_col g-form_col-2">
+                  <button class="g-btn g-btn--turquoise" type="button" (click)="searchDataCompany()" [disabled]="controlsForm['document_number'].disabled || controlsForm['document_number'].errors || isSendingDocument"
+                    [attr.loading]="isSendingDocument">
+                    <span class="g-btn_label">Buscar</span>
+                    <span class="g-btn_spinner"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="g-form_row">
+                <label for="" class="g-form_label">Empresa
+                  <span class="g-form_label_required">*</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <input type="text" class="g-form_control" formControlName="trade_name" readonly>
+                </fieldset>
+              </div>
+              <div class="g-form_row">
+                <label for="" class="g-form_label">Razón Social
+                  <span class="g-form_label_required">*</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <input type="text" class="g-form_control" formControlName="business_name" readonly>
+                </fieldset>
+              </div>
+              <div class="g-form_row">
+                <label class="g-form_label">Logo
+                  <span class="g-form_label_required">*</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <div class="b-preview-image">
+                    <div class="b-preview-image_column u-center-image">
+                      <img *ngIf="imageLogo.fields[0]['source']" src="{{imageLogo.fields[0]['source']}}" />
+                    </div>
+                    <div class="b-preview-image_column">
+                      <button class="g-btn g-btn-input-file g-btn--turquoise" type="button" [disabled]="imageLogo.fields[0].loading" [attr.loading]="imageLogo.fields[0].loading">
+                        <span class="g-btn_label">Seleccionar Imagen</span>
+                        <input class="g-btn-input-file__control" type="file" appInputFile appInputFileMethod="image" accept="{{imageLogo.metadata}}"
+                          (initUpload)="uploadImage($event, imageLogo.fields[0], controlsForm['logo'])" (resetInput)="resetInputImage($event, imageLogo.fields[0], controlsForm['logo'])"
+                        />
+                        <span class="g-btn_spinner"></span>
+                      </button>
+                      <div class="g-form_input-error">{{imageLogo.fields[0]['error']}}</div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="g-form_row">
+                <div class="g-form_col g-form_col-2">
+                  <label for="" class="g-form_label">Tipo de Oferta
+                    <span class="g-form_label_required">*</span>
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <comp-custom-validation [options]="{
+                          errors   : controlsForm['offer_type'].errors,
+                          element  : controlsForm['offer_type'],
+                          submitted: isSubmitted,
+                          messages : {
+                            required: 'Este campo es requerido.'
+                          }
+                      }">
+                      <select name="select" class="g-form_control" formControlName="offer_type">
+                        <option value="" selected>(Seleccionar)</option>
+                        <option value="curso">Curso</option>
+                        <option value="pregrado">Pregrado</option>
+                        <option value="postgrado">Postgrado</option>
+                      </select>
+                    </comp-custom-validation>
+                  </fieldset>
+                </div>
+                <div class="g-form_col g-form_col-2">
+                  <label for="" class="g-form_label">Industria
+                    <span class="g-form_label_required">*</span>
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <comp-custom-validation [options]="{
+                          errors   : controlsForm['industry_id'].errors,
+                          element  : controlsForm['industry_id'],
+                          submitted: isSubmitted,
+                          messages : {
+                            required: 'Este campo es requerido.'
+                          }
+                      }">
+                      <select name="select" class="g-form_control" formControlName="industry_id" #industry_id (change)="getSelectedIndustry(industry_id.options[$event.target.selectedIndex].text)">
+                        <option value="" selected>(Seleccionar)</option>
+                        <option *ngFor="let industry of industries" value="{{industry.id}}">{{industry.name}}</option>
+                      </select>
+                    </comp-custom-validation>
+                    <input type="hidden" formControlName="industry_name" [attr.value]="industry_id.value">
+                  </fieldset>
+                </div>
+              </div>
+              <div class="g-form_row">
+                <div class="g-form_col g-form_col-2">
+                  <label for="" class="g-form_label">Latitud</label>
+                  <fieldset class="g-form_fieldset">
+                    <comp-custom-validation [options]="{
+                        errors   : controlsForm['latitude'].errors,
+                        element  : controlsForm['latitude'],
+                        messages : {
+                          latitudeFormat: 'Latitud ingresada no es válido.',
+                          dependentAttributeLatitud: 'Es necesario digitar la Latitud'
+                        }
+                      }">
+                      <input type="text" class="g-form_control" formControlName="latitude" maxlength="11">
+                    </comp-custom-validation>
+                  </fieldset>
+                </div>
+                <div class="g-form_col g-form_col-2">
+                  <label for="" class="g-form_label">Longitud</label>
+                  <fieldset class="g-form_fieldset">
+                    <comp-custom-validation [options]="{
+                      errors   : controlsForm['longitude'].errors,
+                      element  : controlsForm['longitude'],
+                      messages : {
+                        longitudeFormat : 'Longitud ingresada no es valida',
+                        dependentAttributeLongitud: 'Es necesario digitar la Longitud'
+
+                      }
+                    }">
+                      <input type="text" class="g-form_control" formControlName="longitude" maxlength="11">
+                    </comp-custom-validation>
+                  </fieldset>
+                </div>
+              </div>
+              <div formGroupName="coords" *ngIf="isDeveloper">
+                <div class="g-form_row">
+                  <label for="" class="g-form_label">
+                    Coordenadas Desktop
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <input type="text" class="g-form_control" formControlName="desktop">
+                  </fieldset>
+                </div>
+                <div class="g-form_row">
+                  <label for="" class="g-form_label">
+                    Coordenadas Tablet
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <input type="text" class="g-form_control" formControlName="tablet">
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stand -->
+          <div id="stand" class="g-form_section">
+            <div class="g-form_section-title">
+              <span class="g-form_section-title__text">Stand</span>
+              <span class="g-form_section-title__icon">
+                <comp-svgicons [icon]="{name: 'g-icon-down_arrow'}"></comp-svgicons>
+              </span>
+            </div>
+            <div class="g-form_section-content" formGroupName="stand">
+              <div class="g-form_row">
+                <div class="g-form_col g-form_col-2">
+                  <label for="" class="g-form_label">Tipo de Stand
+                    <span class="g-form_label_required">*</span>
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <comp-custom-validation [options]="{
+                          errors   : controlsForm['type_id'].errors,
+                          element  : controlsForm['type_id'],
+                          submitted: isSubmitted,
+                          messages : {
+                            required: 'Este campo es requerido.'
+                          }
+                      }">
+                      <select class="g-form_control" (change)="onChangeTypeStand($event.target.value)" formControlName="type_id">
+                        <option value="">(Seleccionar)</option>
+                        <option value="1">Oro</option>
+                        <option value="2">Plata</option>
+                        <option value="3">Bronce</option>
+                      </select>
+                    </comp-custom-validation>
+                  </fieldset>
+                </div>
+                <div class="g-form_col g-form_col-2">
+                  <label for="" class="g-form_label">Modelo
+                    <span class="g-form_label_required">*</span>
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <comp-custom-validation [options]="{
+                            errors   : controlsForm['model_id'].errors,
+                            element  : controlsForm['model_id'],
+                            submitted: isSubmitted,
+                            messages : {
+                              required: 'Este campo es requerido.'
+                            }
+                        }">
+                      <select name="select" class="g-form_control" (change)="loadCanvasStands($event)" formControlName="model_id">
+                        <option value="">(Seleccionar)</option>
+                        <option *ngFor="let model of currentStandList.models" [value]="model.id">{{model.name}}</option>
+                      </select>
+                    </comp-custom-validation>
+                  </fieldset>
+                </div>
+              </div>
+              <div class="g-form_row">
+                <label for="" class="g-form_label">Anfitrión
+                  <span class="g-form_label_required">*</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <comp-custom-validation [options]="{
+                          errors   : controlsForm['amphitryon'].errors,
+                          element  : controlsForm['amphitryon'],
+                          submitted: isSubmitted,
+                          messages : {
+                            required: 'Este campo es requerido.'
+                          }
+                      }">
+                    <select name="select" class="g-form_control" (change)="loadCanvasAmphitryon($event)" formControlName="amphitryon">
+                      <option value="" selected>(Seleccionar)</option>
+                      <option *ngFor="let amphitryon of currentStandList.amphitryons" [value]="amphitryon.id">{{amphitryon.name}}</option>
+                    </select>
+                  </comp-custom-validation>
+                </fieldset>
+              </div>
+              <div class="g-form_row" formGroupName="colors">
+                <div class="g-form_col g-form_col-2">
+                  <label for="" class="g-form_label">Color 1
+                    <span class="g-form_label_required">*</span>
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <comp-custom-validation [options]="{
+                          errors   : controlsForm['color_1'].errors,
+                          element  : controlsForm['color_1'],
+                          submitted: isSubmitted,
+                          messages : {
+                            pattern : 'El color no es válido.',
+                            required: 'Este campo es requerido.'
+                          }
+                      }">
+                      <div class="g-input-color">
+                        <div class="g-input-color__preview" [style.background]="valueColor1"></div>
+                        <input class="g-input-color__control g-form_control" [(colorPicker)]="valueColor1" [cpAlphaChannel]="'disabled'" formControlName="color_1"
+                          cpPosition="bottom" (colorPickerChange)="onChangeColor($event, 'color_1')" />
+                      </div>
+                    </comp-custom-validation>
+                  </fieldset>
+                </div>
+                <div class="g-form_col g-form_col-2">
+                  <label for="" class="g-form_label">Color 2
+                    <span class="g-form_label_required">*</span>
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <comp-custom-validation [options]="{
+                            errors   : controlsForm['color_2'].errors,
+                            element  : controlsForm['color_2'],
+                            submitted: isSubmitted,
+                            messages : {
+                              pattern : 'El color no es válido.',
+                              required: 'Este campo es requerido.'
+                            }
+                        }">
+                      <div class="g-input-color">
+                        <div class="g-input-color__preview" [style.background]="valueColor2"></div>
+                        <input class="g-input-color__control g-form_control" [(colorPicker)]="valueColor2" formControlName="color_2" cpPosition="bottom"
+                          (colorPickerChange)="onChangeColor($event, 'color_2')" />
+                      </div>
+                    </comp-custom-validation>
+                  </fieldset>
+                </div>
+              </div>
+              <div *ngFor="let current_image of imagesStand.fields; let index = index;" formArrayName="images">
+                <div class="g-form_row" [formGroupName]="index" *ngIf="!current_image['disabled']">
+                  <label class="g-form_label">
+                    {{current_image['title']}}
+                    <span class="g-form_label_required" *ngIf="!current_image['disabled']">*</span>
+                    <br/>
+                    <span class="g-form_label_extra">{{current_image['size']}}</span>
+                  </label>
+                  <fieldset class="g-form_fieldset">
+                    <div class="b-preview-image">
+                      <div class="b-preview-image_column u-center-image">
+                        <img *ngIf="current_image['source']" src="{{current_image['source']}}" />
+                      </div>
+                      <div class="b-preview-image_column">
+                        <button class="g-btn g-btn-input-file g-btn--turquoise" type="button" [disabled]="current_image['loading']" [attr.loading]="current_image['loading']">
+                          <span class="g-btn_label">Seleccionar Imagen</span>
+                          <input class="g-btn-input-file__control" type="file" appInputFile appInputFileMethod="image" accept="{{imagesStand.metadata}}"
+                            (initUpload)="uploadImage($event, current_image, controlsForm['images'].get([index]).get(current_image['controlName']))"
+                            (resetInput)="resetInputImage($event, current_image, controlsForm['images'].get([index]).get(current_image['controlName']))"
+                          />
+                          <span class="g-btn_spinner"></span>
+                        </button>
+                        <div class="g-form_input-error">{{current_image['error']}}</div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+              <div class="g-form_row" *ngIf="!controlsForm['video']['disabled']">
+                <label for="" class="g-form_label">Video Youtube
+                  <span class="g-form_label_required" *ngIf="!controlsForm['video']['disabled']">*</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <comp-custom-validation [options]="{
+                          errors   : controlsForm['video'].errors,
+                          element  : controlsForm['video'],
+                          submitted: isSubmitted,
+                          messages : {
+                            required: 'Este campo es requerido.'
+                          }
+                      }">
+                    <input [appInputVideo]="{ preview: videoPreview }" [appInputVideoValue]="controlsForm['video'].value" class="g-form_control"
+                      type="text" placeholder="Pega el enlace de Youtube" formControlName="video" #videoElement>
+                  </comp-custom-validation>
+                  <div class="b-video" #videoPreview></div>
+                </fieldset>
+              </div>
+              <div class="g-form_row" [hidden]="controlsForm['model_id'].value===''">
+                <label for="" class="g-form_label">Vista Previa</label>
+                <fieldset class="g-form_fieldset">
+                  <div class="b-preview">
+                    <canvas #standPreview class="b-preview_canvas"></canvas>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+
+          <!-- Perfil Institucional -->
+          <div id="institutionalProfile" class="g-form_section">
+            <div class="g-form_section-title">
+              <span class="g-form_section-title__text">Perfil Institucional</span>
+              <span class="g-form_section-title__icon">
+                <comp-svgicons [icon]="{name: 'g-icon-down_arrow'}"></comp-svgicons>
+              </span>
+            </div>
+            <div class="g-form_section-content" formArrayName="profile">
+              <div *ngFor="let profile of companyForm.controls.profile.controls; let i=index">
+                <div class="g-form_row g-form_row--profile" [formGroupName]="i">
+                  <div class="g-form_col">
+                    <input type="text" class="g-form_control" formControlName="title" placeholder={{profileTitles[i]}}>
+                  </div>
+                  <div class="g-form_col">
+                    <textarea #txaDescription [pluginTinyMCE]="txaDescription" (onEditorKeyup)="onBlurTinyMCE($event, i)" class="g-form_textarea"
+                      formControlName="description"></textarea>
+                  </div>
+                  <span class="g-form_icon-delete" (click)="removeTemplate('profile', i)">
+                    <comp-svgicons [icon]="{name: 'g-icon-close'}"></comp-svgicons>
+                  </span>
+                </div>
+              </div>
+              <div class="g-form_add">
+                <a *ngIf="companyForm.controls.profile.controls.length < 3" class="g-form_add__link" (click)="addProfileTemplate()">
+                  Agregar
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Redes Sociales -->
+          <div id="socialNetwork" class="g-form_section">
+            <div class="g-form_section-title">
+              <span class="g-form_section-title__text">Redes Sociales</span>
+              <span class="g-form_section-title__icon">
+                <comp-svgicons [icon]="{name: 'g-icon-down_arrow'}"></comp-svgicons>
+              </span>
+            </div>
+            <div class="g-form_section-content" formArrayName="social_media">
+              <div *ngFor="let social_media of companyForm.controls.social_media.controls; let i=index">
+                <div class="g-form_row g-form_row--profile" [formGroupName]="i">
+                  <div class="g-form_col">
+                    <select name="select" class="g-form_control" formControlName="name">
+                      <option value="" selected>(Seleccionar)</option>
+                      <option value="Facebook">Facebook</option>
+                      <option value="Twitter">Twitter</option>
+                      <option value="Youtube">Youtube</option>
+                      <option value="Pinterest">Pinterest</option>
+                      <option value="Linkedin">Linkedin</option>
+                      <option value="Instagram">Instagram</option>
+                    </select>
+                  </div>
+                  <div class="g-form_col g-form_network">
+                    <input type="text" class="g-form_control" formControlName="link">
+                  </div>
+                  <span class="g-form_icon-delete" (click)="removeTemplate('social_media', i)">
+                    <comp-svgicons [icon]="{name: 'g-icon-close'}"></comp-svgicons>
+                  </span>
+                </div>
+              </div>
+              <div class="g-form_add">
+                <a class="g-form_add__link" (click)="addSocialNetworkTemplate()">
+                  Agregar Red Social
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Galeria de Imágenes -->
+          <div id="imageGallery" class="g-form_section">
+            <div class="g-form_section-title">
+              <span class="g-form_section-title__text">Galería de imágenes</span>
+              <span class="g-form_section-title__icon">
+                <comp-svgicons [icon]="{name: 'g-icon-down_arrow'}"></comp-svgicons>
+              </span>
+            </div>
+            <div class="g-form_section-content" formArrayName="image_gallery">
+              <p class="g-form_label_required">* Cada imagen debe pesar máximo 8MB.</p>
+              <div *ngFor="let current_image of imagesGallery.fields; let index = index;" class="g-form_row" [formGroupName]="index">
+                <label class="g-form_label">
+                  Imagen Galeria {{index + 1}}
+                  <br/>
+                  <span class="g-form_label_extra">940x400</span>
+                </label>
+                <fieldset class="g-form_fieldset">
+                  <div class="b-preview-image">
+                    <div class="b-preview-image_column u-center-image">
+                      <img *ngIf="current_image['source']" src="{{current_image['source']}}" />
+                    </div>
+                    <div class="b-preview-image_column">
+                      <button class="g-btn g-btn-input-file g-btn--turquoise" type="button" [disabled]="current_image['loading']" [attr.loading]="current_image['loading']">
+                        <span class="g-btn_label">Seleccionar Imagen</span>
+                        <input class="g-btn-input-file__control" type="file" appInputFile appInputFileMethod="image" accept="{{imagesGallery.metadata}}"
+                          (initUpload)="uploadImage($event, current_image, controlsForm['image_gallery'].get([index]).get(current_image['controlName']))"
+                          (resetInput)="resetInputImage($event, current_image, controlsForm['image_gallery'].get([index]).get(current_image['controlName']))"
+                        />
+                        <span class="g-btn_spinner"></span>
+                      </button>
+                      <button class="g-btn g-btn--delete" (click)="removeTemplateImageGallery(index)">
+                        <span class="g-btn_label">ELIMINAR</span>
+                      </button>
+                      <div class="g-form_input-error">{{current_image['error']}}</div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="g-form_add">
+                <a class="g-form_add__link" (click)="addTemplateImageGallery()">
+                  Agregar Imagen
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Descargables -->
+          <div id="downloadable" class="g-form_section">
+            <div class="g-form_section-title">
+              <span class="g-form_section-title__text">Descargables</span>
+              <span class="g-form_section-title__icon">
+                <comp-svgicons [icon]="{name: 'g-icon-down_arrow'}"></comp-svgicons>
+              </span>
+            </div>
+            <div class="g-form_section-content" formArrayName="document">
+              <p class="g-form_label_required">* Cada archivo debe pesar máximo 8MB.</p>
+              <div *ngFor="let document of companyForm.controls.document.controls; let i=index">
+                <div class="g-form_row" [formGroupName]="i">
+                  <div class="g-form_col g-form_col-2">
+                    <label for="" class="g-form_label">Archivo {{i + 1}}</label>
+                    <fieldset class="g-form_fieldset">
+                      <div class="g-form_input-col">
+                        <input class="g-form_control" id="file{{i}}Name" type="text" placeholder="Nombre del archivo" formControlName="title" />
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="g-form_col g-form_col-2">
+                    <div class="b-button-box">
+                      <button class="g-btn g-btn-input-file g-btn--turquoise" type="button">
+                        <input class="g-btn-input-file__control" id="{{i}}" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx" appInputFile
+                          appInputFileMethod="office_file" (initUpload)="uploadFiles($event)" (resetInput)="resetInputFile($event, i)"
+                        />
+                        <span>Seleccionar Archivo</span>
+                      </button>
+                      <a class="g-btn g-btn-input-file-margin" *ngIf="companyForm.get('document').get([i]).controls.link.value != ''" href="{{companyForm.get('document').get([i]).controls.link.value}}"
+                        target="_blank">
+                        <span class="g-btn_label">Descargar</span>
+                      </a>
+                      <button class="g-btn g-btn--delete" (click)="removeTemplate('document', i)">
+                        <span class="g-btn_label">Eliminar</span>
+                      </button>
+                    </div>
+                    <div class="error_message">{{ uploadError[i] }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="g-form_add">
+                <a class="g-form_add__link" (click)="addDocumentTemplate()">
+                  Agregar Descargable
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="g-form_button-group">
+          <button class="g-btn" type="button" (click)="cancelCompany()">
+            <span class="g-btn_label">Cancelar</span>
+            <span class="g-btn_spinner"></span>
+          </button>
+          <button class="g-btn g-btn--turquoise" type="submit" [disabled]="formIsValid() || isSending" [attr.loading]="isSending">
+            <span class="g-btn_label">Guardar Cambios</span>
+            <span class="g-btn_spinner"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<simple-notifications class="g-notification" [options]="optNotification" (onDestroy)="redirectCompany()"></simple-notifications>

@@ -1,0 +1,27 @@
+.g-table
+  border 1px solid #ddd
+  margin 20px 0 0
+  &_column
+    align-items center
+    color #464646
+    display flex
+    padding 10px
+    &--item_options
+      width 85px
+  &_column-empty
+    justify-content center
+    width 100%
+  &_row
+    border-bottom 1px solid #ddd
+    display flex
+    justify-content space-between
+    padding 0 10px
+  &_header
+    .g-table_row
+      background #ececec
+  &_body
+    background #fff
+    position relative
+    width 100%
+    .g-table_row:last-child
+      border-bottom none

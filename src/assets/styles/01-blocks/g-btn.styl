@@ -1,0 +1,113 @@
+/* BUTTONS */
+.g-btn
+  background-color #e1e5ec
+  border 1px solid transparent
+  border-radius 2px
+  box-shadow 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)
+  color #666
+  cursor pointer
+  display inline-block
+  font-size 13px
+  line-height 30px
+  outline 0
+  padding 0 20px
+  position relative
+  text-align center
+  text-transform uppercase
+  transition .2s ease-out
+  vertical-align middle
+  z-index 1
+  &:hover
+    box-shadow 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 7px 0 rgba(0,0,0,0.12), 0 3px 1px -1px rgba(0,0,0,0.2)
+  &[disabled]
+    background-color #DBDBDB
+    border 1px solid #DBDBDB
+    box-shadow none
+    color #6C6C6C
+    cursor default
+    pointer-events none
+  &[loading="true"]
+    .g-btn_spinner
+      border-radius 4px
+      opacity 1
+      transform none
+    .g-btn_label
+      opacity 0
+
+.g-btn_label
+  display inline-block
+  position relative
+  vertical-align top
+  *
+    vertical-align middle
+
+.g-btn_spinner
+  background-color #b6b6b6
+  background-image url(/assets/img/button-loader.gif?v=769f3f8)
+  background-position 50%
+  background-repeat no-repeat
+  background-size 26px 26px
+  bottom 0
+  display inline-block
+  left 0
+  margin auto
+  opacity 0
+  position absolute
+  right 0
+  top 0
+  transform scale(.2)
+  transition all .3s ease
+  vertical-align top
+  width 100%
+
+
+$blue          = #045584
+$blueHover     = #04304A
+$skyblue       = #3798cf
+$skyblueHover  = #328bbd
+$pink          = #F21651
+$pinkHover     = #d21044
+$turquoise     = #26a69a
+$turquoiseHover= #2bbbad
+
+.g-btn--delete
+  background #DB5A4E
+  color #fff
+  &:hover
+    background #FF6C56
+.g-btn--pink
+  background $pink
+  color #fff
+  &:hover
+    background $pinkHover
+.g-btn--sky_blue
+  background $skyblue
+  color #fff
+  &:hover
+    background $skyblueHover
+.g-btn--turquoise
+  background $turquoise
+  color #fff
+  &:hover
+    background $turquoiseHover
+.g-btn--blue
+  background $blue
+  color #fff
+  &:hover
+    background $blueHover
+.g-btn-input-file-margin
+  background #3a7999
+  color #fff
+  &:hover
+    background #328bbd
+
+.g-btn-input-file
+  position relative
+  &__control
+    height 100%
+    top 0
+    left 0
+    opacity 0
+    position absolute
+    width 100%
+    z-index 1

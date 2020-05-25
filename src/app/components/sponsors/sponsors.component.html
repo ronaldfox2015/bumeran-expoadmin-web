@@ -1,0 +1,57 @@
+<div class="g-detail-header">
+  <h1 class="g-detail-header__title">Patrocinadores</h1>
+  <div class="g-detail-header__breadcrumb">Feria / Patrocinadores</div>
+</div>
+<div class="g-detail-body">
+  <div class="b-btn-container">
+    <button class="g-btn g-btn--blue" [routerLink]="['/patrocinadores', 'agregar']">
+      <span class="g-btn_label">Agregar Patrocinador</span>
+    </button>
+  </div>
+  <comp-loader-view *ngIf="!isTableDisplayed"></comp-loader-view>
+  <div *ngIf="isTableDisplayed">
+    <div class="g-table" id="tableManager">
+      <div class="g-table_header" id="tableManagerHeader">
+        <div class="g-table_row">
+          <div class="g-table_column" style="width:30%">Nombre</div>
+          <div class="g-table_column" style="width:40%">URL</div>
+          <div class="g-table_column" style="width:20%">Categoría</div>
+          <div class="g-table_column" style="width:10%">Acciones</div>
+        </div>
+      </div>
+      <div class="g-table_row_body" id="tableManagerBody">
+        <div *ngIf="sponsors.length > 0; then content else no_results"></div>
+        <ng-template #content>
+          <div *ngFor="let sponsor of sponsors" class="g-table_row">
+            <div class="g-table_column" style="width:30%">{{sponsor.companyName}}</div>
+            <div class="g-table_column" style="width:40%">{{sponsor.url}}</div>
+            <div class="g-table_column" style="width:20%">{{sponsor.category}}</div>
+            <div class="g-table_column" style="width:10%">
+              <comp-menu-actions (functionConnector)="buildFunctionConnector($event, sponsor)" [menuItems]="buildMenuItems()">
+              </comp-menu-actions>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #no_results>
+          <div class="g-table_row">
+            <div class="g-table_column g-table_column-empty">No se encontró ningún resultado</div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <!--custom-paginator *ngIf="pages > 1" (pageChange)="changePage($event)"></custom-paginator-->
+  </div>
+</div>
+
+<comp-modal [(visible)]="isVisibleModal">
+  <h1 class="g-modal_title">Eliminar Patrocinador</h1>
+  <p class="g-modal_description">¿Está seguro que desea eliminar al patrocinador {{currentSponsor.businessName}}?</p>
+  <div class="g-modal_button-box">
+    <button (click)="isVisibleModal = !isVisibleModal" class="g-btn g-btn-cancel" [disabled]="isButtonDisabled">Cancelar</button>
+    <button (click)="deleteSponsor(currentSponsor.id)" class="g-btn g-btn--blue" [disabled]="isButtonDisabled" [attr.loading]="isButtonDisabled">
+      <span class="g-btn_label">Eliminar</span>
+      <span class="g-btn_spinner"></span>
+    </button>
+  </div>
+</comp-modal>
+<simple-notifications class="g-notification" [options]="optNotification"></simple-notifications>

@@ -1,0 +1,8 @@
+<ng-content></ng-content>
+<ul class="c-dropdown_menu">
+  <li class="c-dropdown_menu_item" *ngFor="let item of menuItems" [ngClass]="{'c-dropdown_menu--divider': item.divider}">
+    <a class="c-dropdown_menu_link" [ngClass]="{'c-dropdown_menu--disabled': item.element.disabled}" (click)="callFunction(item.functionToCall)" href="javascript:;" title="{{item.element.title}}">
+      <comp-svgicons [icon]="{name: item.element.icon}"></comp-svgicons> {{item.element.text}}
+    </a>
+  </li>
+</ul>

@@ -1,0 +1,12 @@
+<div class="g-menu-options" [ngClass]="displayClass" [class.is-disabled]="isDisabled" (click)="toggleClass()">
+    <comp-svgicons [icon]="{name: icon[0]}"></comp-svgicons>
+    <i class="g-icon-arrow-menu"></i>
+    <ul class="g-menu-options_item-list">
+        <li *ngFor="let item of menuItems">
+            <a class="g-menu-options__item" (click)="callFunction(item.functionToCall)" href="javascript:;" title="{{item.element.title}}">
+                <comp-svgicons [icon]="{name: item.element.icon}"></comp-svgicons> {{item.element.text}}
+            </a>
+        </li>
+    </ul>
+</div>
+

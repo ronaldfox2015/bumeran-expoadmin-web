@@ -1,0 +1,40 @@
+<div class="b-login">
+  <form class="b-login_form" *ngIf="!isLogged" (ngSubmit)="login()" [formGroup]="userForm">
+    <h3 class="b-login_form__title">Administrador</h3>
+    <span class="b-login_form__error" *ngIf="accessDenied">{{accessDeniedText}}</span>
+    <comp-custom-validation
+      [options] = "{
+        errors   : email.errors,
+        element  : email,
+        submitted: submitted,
+        messages : {
+            required   : 'Campo requerido.',
+            emailFormat: 'El email no es válido.'
+        }
+      }">
+      <div class="g-input-control g-input-control--icon g-input-control--login">
+        <input class="g-input-control__tag" type="text" formControlName="email" placeholder="Usuario">
+        <comp-svgicons class="g-icon-control" [icon]="{name: icon[0]}"></comp-svgicons>
+      </div>
+    </comp-custom-validation>
+    <comp-custom-validation
+      [options] = "{
+        errors   : password.errors,
+        element  : password,
+        submitted: submitted,
+        messages : {
+            required: 'Campo requerido.'
+        }
+      }">
+      <div class="g-input-control g-input-control--icon g-input-control--login">
+        <input class="g-input-control__tag" type="password" formControlName="password" placeholder="Contraseña">
+        <comp-svgicons class="g-icon-control" [icon]="{name: icon[1]}"></comp-svgicons>
+      </div>
+    </comp-custom-validation>
+    <br/>
+    <button class="g-btn g-btn--blue" type="submit" [disabled]="isSending" [attr.loading]="isSending">
+      <span class="g-btn_label">Iniciar Sesión</span>
+      <span class="g-btn_spinner"></span>
+    </button>
+  </form>
+</div>
