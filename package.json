@@ -70,7 +70,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "lost": "^8.0.0",
     "ngx-color-picker": "^4.0.3",
-    "node-notifier": "^5.1.2",
+    "node-notifier": "^8.0.1",
     "protractor": "~5.1.2",
     "run-sequence": "^1.2.2",
     "rupture": "^0.6.2",
